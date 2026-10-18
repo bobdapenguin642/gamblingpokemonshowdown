@@ -2995,35 +2995,34 @@
 
         let arenaStage = document.getElementById('arena-trainer-side-stage');
         if (!arenaStage) {
-          arenaStage = document.createElement('div');
-          arenaStage.id = 'arena-trainer-side-stage';
-          arenaStage.className = 'flex justify-between items-end p-2 bg-slate-900/60 rounded-xl border border-slate-800 my-2';
-          battleTab.prepend(arenaStage);
-        }
+      arenaStage = document.createElement('div');
+      arenaStage.id = 'arena-trainer-side-stage';
+      arenaStage.className = 'flex justify-between items-end p-2 bg-slate-900/60 rounded-xl border border-slate-800 my-2';
+      battleTab.prepend(arenaStage);
+    }
 
-        arenaStage.innerHTML = `
-          <div class="flex flex-col items-center gap-1">
-            <div class="w-16 h-24 relative flex items-center justify-center bg-slate-950/80 rounded-xl border-2 ${window.currentFrame} p-1 shadow-lg">
-              <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/${window.trainerStudioState.baseSprite}.png" class="w-full h-full object-contain filter drop-shadow" />
-              <img src="${window.currentAvatar}" class="absolute -top-1.5 -right-1.5 w-6 h-6 object-contain bg-slate-950 border border-amber-400 rounded-full p-0.5" />
-            </div>
-            <span class="text-[9px] font-black uppercase text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded border border-indigo-500/30">
-              ${window.currentTitle}
-            </span>
-          </div>
-          <div class="flex flex-col items-center gap-1">
-            <div class="w-16 h-24 relative flex items-center justify-center bg-slate-950/80 rounded-xl border-2 border-rose-500 p-1 shadow-lg">
-              <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/102.png" class="w-full h-full object-contain filter drop-shadow" />
-            </div>
-            <span class="text-[9px] font-black uppercase text-rose-400 bg-rose-500/20 px-2 py-0.5 rounded border border-rose-500/30">Rival</span>
-          </div>
-        `;
-      }
+    arenaStage.innerHTML = `
+      <div class="flex flex-col items-center gap-1">
+        <div class="w-16 h-24 relative flex items-center justify-center bg-slate-950/80 rounded-xl border-2 ${window.currentFrame} p-1 shadow-lg">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/${window.trainerStudioState.baseSprite}.png" class="w-full h-full object-contain filter drop-shadow" />
+          <img src="${window.currentAvatar}" class="absolute -top-1.5 -right-1.5 w-6 h-6 object-contain bg-slate-950 border border-amber-400 rounded-full p-0.5" />
+        </div>
+        <span class="text-[9px] font-black uppercase text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded border border-indigo-500/30">
+          ${window.currentTitle}
+        </span>
+      </div>
+      <div class="flex flex-col items-center gap-1">
+        <div class="w-16 h-24 relative flex items-center justify-center bg-slate-950/80 rounded-xl border-2 border-rose-500 p-1 shadow-lg">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/102.png" class="w-full h-full object-contain filter drop-shadow" />
+        </div>
+        <span class="text-[9px] font-black uppercase text-rose-400 bg-rose-500/20 px-2 py-0.5 rounded border border-rose-500/30">Rival</span>
+      </div>
+    `;
+  }
 
-      renderBattleStageTrainer();
-    });
-  })();
-  
-  </script>
+  renderBattleStageTrainer();
+});
+})();
+</script>
 </body>
 </html>
