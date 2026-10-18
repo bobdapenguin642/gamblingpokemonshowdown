@@ -2647,6 +2647,382 @@
         applyTheme(currentThemeKey);
       });
     })();
+
+    <!-- SHOWDOWN ULTRA: COMPLETE AVATAR STUDIO & CS2 CRATE INJECTOR -->
+<style>
+  /* CS2 Roulette Animation & Ultra UI Styling */
+  .cs2-overlay-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.95);
+    backdrop-filter: blur(16px);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .cs2-viewport-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 140px;
+    background: #020617;
+    border: 3px solid #3b82f6;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.35);
+  }
+  .cs2-center-ticker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    background: #f59e0b;
+    z-index: 50;
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px #f59e0b, 0 0 5px #fbbf24;
+  }
+  .cs2-reel-track {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 15px;
+    height: 110px;
+    will-change: transform;
+  }
+  .cs2-item-card {
+    width: 110px;
+    height: 110px;
+    margin: 0 6px;
+    flex-shrink: 0;
+    background: #0f172a;
+    border-radius: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 5px solid #64748b;
+  }
+  .cs2-item-card.common { border-bottom-color: #94a3b8; background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); }
+  .cs2-item-card.rare { border-bottom-color: #3b82f6; background: linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%); }
+  .cs2-item-card.epic { border-bottom-color: #a855f7; background: linear-gradient(180deg, #0f172a 0%, #581c87 100%); }
+  .cs2-item-card.mythic { border-bottom-color: #ec4899; background: linear-gradient(180deg, #0f172a 0%, #831843 100%); }
+  .cs2-item-card.ultra { border-bottom-color: #f59e0b; background: linear-gradient(180deg, #0f172a 0%, #78350f 100%); }
+
+  .studio-podium-ring {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%) rotateX(75deg);
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 3px solid rgba(99, 102, 241, 0.6);
+    box-shadow: 0 0 25px rgba(99, 102, 241, 0.5), inset 0 0 15px rgba(99, 102, 241, 0.3);
+  }
+</style>
+
+<script>
+  (function initShowdownUltraStudioEngine() {
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. State Persistence Management
+      window.userCoins = parseInt(localStorage.getItem('showdown_coins')) || 1000;
+      window.currentAvatar = localStorage.getItem('showdown_avatar') || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png';
+      window.currentTitle = localStorage.getItem('showdown_title') || 'Ace Trainer';
+      window.currentFrame = localStorage.getItem('showdown_frame') || 'border-indigo-500';
+      window.ownedAvatars = JSON.parse(localStorage.getItem('showdown_owned_avatars')) || [window.currentAvatar];
+      window.trainerStudioState = JSON.parse(localStorage.getItem('showdown_trainer_studio')) || { baseSprite: '101' };
+
+      const ITEM_CATALOG = [
+        { id: 'c1', name: 'Poke Ball', rarity: 'common', url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png' },
+        { id: 'c2', name: 'Great Ball', rarity: 'common', url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/great-ball.png' },
+        { id: 'r1', name: 'Ultra Ball', rarity: 'rare', url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png' },
+        { id: 'r2', name: 'Quick Ball', rarity: 'rare', url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/quick-ball.png' },
+        { id: 'e1', name: 'Master Ball', rarity: 'epic', url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png' },
+        { id: 'e2', name: 'Leftovers', rarity: 'epic', url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leftovers.png' },
+        { id: 'm1', name: 'Mega Ring', rarity: 'mythic', url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mega-ring.png' },
+        { id: 'u1', name: 'Charizardite X', rarity: 'ultra', url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/charizardite-x.png' }
+      ];
+
+      // 2. Inject Navigation Button
+      const navBar = document.querySelector('nav');
+      if (navBar && !document.getElementById('nav-btn-avatar-studio')) {
+        const studioNavBtn = document.createElement('button');
+        studioNavBtn.id = 'nav-btn-avatar-studio';
+        studioNavBtn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all';
+        studioNavBtn.innerHTML = `<span>🧢</span> Avatar Studio`;
+        studioNavBtn.onclick = () => window.switchAppTab('avatar-studio');
+        navBar.appendChild(studioNavBtn);
+      }
+
+      // 3. Inject Avatar Studio Tab Container
+      const mainAppContainer = document.querySelector('main') || document.body;
+      const studioTabContainer = document.createElement('div');
+      studioTabContainer.id = 'avatar-studio-tab';
+      studioTabContainer.className = 'tab-content hidden max-w-6xl mx-auto space-y-6 p-4';
+
+      studioTabContainer.innerHTML = `
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div>
+            <h2 class="text-xl font-black text-white flex items-center gap-2">
+              <span>🧢</span> Trainer Avatar Studio & Marketplace
+            </h2>
+            <p class="text-xs text-slate-400">Customize model, equip items, and unbox CS2 crates</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl text-xs font-black text-amber-300">
+              🪙 <span id="studio-coin-balance">${window.userCoins}</span>
+            </div>
+            <button onclick="saveStudioOutfit()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs px-4 py-2 rounded-xl transition shadow-lg">
+              💾 Save Outfit
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- PODIUM STAGE PREVIEW -->
+          <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 flex flex-col items-center justify-between min-h-[380px] relative overflow-hidden">
+            <div class="studio-podium-ring"></div>
+            <div class="my-auto relative z-10">
+              <div id="studio-stage-frame" class="w-36 h-56 relative flex items-center justify-center bg-slate-900/80 rounded-2xl border-2 ${window.currentFrame} p-2 shadow-2xl backdrop-blur-md">
+                <img id="studio-stage-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/${window.trainerStudioState.baseSprite}.png" class="w-full h-full object-contain drop-shadow-2xl" />
+                <img id="studio-stage-accessory" src="${window.currentAvatar}" class="absolute -top-3 -right-3 w-10 h-10 object-contain bg-slate-950 border-2 border-amber-400 rounded-full p-1 shadow-lg" />
+              </div>
+            </div>
+            <div class="text-center z-10">
+              <span class="text-[10px] font-black uppercase text-indigo-300 bg-indigo-500/20 px-3 py-1 rounded-full border border-indigo-500/30">
+                ${window.currentTitle}
+              </span>
+            </div>
+          </div>
+
+          <!-- CONTROLS & CRATES -->
+          <div class="lg:col-span-2 space-y-6">
+            <!-- Model Picker -->
+            <div class="space-y-2">
+              <label class="text-xs font-black uppercase text-slate-400 tracking-wider">Trainer Model</label>
+              <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                ${['101', '102', '1', '2', '170', '235'].map(id => `
+                  <button onclick="setStudioModel('${id}')" class="p-2 rounded-xl border border-slate-800 bg-slate-900 hover:border-indigo-500 transition flex items-center justify-center h-16">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/${id}.png" class="h-full object-contain" />
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Frame Aura -->
+            <div class="space-y-2">
+              <label class="text-xs font-black uppercase text-slate-400 tracking-wider">Card Aura</label>
+              <div class="grid grid-cols-3 gap-2">
+                <button onclick="setStudioAura('border-indigo-500')" class="p-2 bg-slate-950 border-2 border-indigo-500 rounded-xl text-xs font-bold text-indigo-300">Indigo</button>
+                <button onclick="setStudioAura('border-emerald-500')" class="p-2 bg-slate-950 border-2 border-emerald-500 rounded-xl text-xs font-bold text-emerald-300">Emerald</button>
+                <button onclick="setStudioAura('border-amber-400 animate-pulse')" class="p-2 bg-slate-950 border-2 border-amber-400 rounded-xl text-xs font-bold text-amber-300">Gold</button>
+              </div>
+            </div>
+
+            <!-- CS2 Crates -->
+            <div class="space-y-2">
+              <label class="text-xs font-black uppercase text-slate-400 tracking-wider">CS2 Cosmetic Crates</label>
+              <div class="grid grid-cols-3 gap-3">
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-center space-y-2">
+                  <div class="text-xl">📦</div>
+                  <div class="font-extrabold text-[11px] text-white">Trainer Crate</div>
+                  <button onclick="triggerCS2Unbox('standard', 150)" class="w-full bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-black py-1.5 rounded-lg">🪙 150</button>
+                </div>
+                <div class="bg-slate-950 border border-purple-800/80 rounded-xl p-3 text-center space-y-2">
+                  <div class="text-xl">🎁</div>
+                  <div class="font-extrabold text-[11px] text-purple-300">Mega Crate</div>
+                  <button onclick="triggerCS2Unbox('mega', 450)" class="w-full bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 text-[10px] font-black py-1.5 rounded-lg">🪙 450</button>
+                </div>
+                <div class="bg-slate-950 border border-amber-500/80 rounded-xl p-3 text-center space-y-2">
+                  <div class="text-xl">👑</div>
+                  <div class="font-extrabold text-[11px] text-amber-300">Ultra Crate</div>
+                  <button onclick="triggerCS2Unbox('ultra', 1000)" class="w-full bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-black py-1.5 rounded-lg">🪙 1000</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Inventory Grid -->
+            <div class="space-y-2">
+              <label class="text-xs font-black uppercase text-slate-400 tracking-wider">Owned Accessories</label>
+              <div id="studio-inventory-grid" class="flex gap-2 overflow-x-auto p-2 bg-slate-950 rounded-xl border border-slate-800"></div>
+            </div>
+          </div>
+        </div>
+      `;
+      mainAppContainer.appendChild(studioTabContainer);
+
+      // 4. Inject CS2 Unbox Overlay Modal
+      const cs2Overlay = document.createElement('div');
+      cs2Overlay.id = 'cs2-roulette-modal';
+      cs2Overlay.className = 'cs2-overlay-backdrop hidden';
+      cs2Overlay.innerHTML = `
+        <div class="text-xs font-black uppercase tracking-widest text-amber-400 mb-3 animate-pulse">Unboxing Crate...</div>
+        <div class="cs2-viewport-container">
+          <div class="cs2-center-ticker"></div>
+          <div id="cs2-reel-track" class="cs2-reel-track"></div>
+        </div>
+        <div id="cs2-reveal-card" class="text-center mt-6 hidden space-y-3">
+          <div id="cs2-win-name" class="text-lg font-black text-white">Item Unlocked!</div>
+          <button onclick="closeCS2Modal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-black px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-lg">
+            Equip & Close
+          </button>
+        </div>
+      `;
+      document.body.appendChild(cs2Overlay);
+
+      // 5. Global Action Helpers
+      window.switchAppTab = function(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        const target = document.getElementById(`${tabName}-tab`);
+        if (target) target.classList.remove('hidden');
+
+        document.querySelectorAll('nav button').forEach(btn => {
+          btn.classList.remove('bg-blue-600', 'text-white');
+          btn.classList.add('text-slate-400');
+        });
+
+        const activeNav = document.getElementById(`nav-btn-${tabName}`);
+        if (activeNav) {
+          activeNav.classList.add('bg-blue-600', 'text-white');
+          activeNav.classList.remove('text-slate-400');
+        }
+
+        if (tabName === 'avatar-studio') renderStudioInventory();
+      };
+
+      window.setStudioModel = function(id) {
+        window.trainerStudioState.baseSprite = id;
+        document.getElementById('studio-stage-sprite').src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/${id}.png`;
+      };
+
+      window.setStudioAura = function(frameClass) {
+        window.currentFrame = frameClass;
+        document.getElementById('studio-stage-frame').className = `w-36 h-56 relative flex items-center justify-center bg-slate-900/80 rounded-2xl border-2 ${frameClass} p-2 shadow-2xl backdrop-blur-md`;
+      };
+
+      function renderStudioInventory() {
+        const grid = document.getElementById('studio-inventory-grid');
+        if (!grid) return;
+        grid.innerHTML = window.ownedAvatars.map(url => `
+          <button onclick="equipStudioItem('${url}')" class="p-2 rounded-xl border ${window.currentAvatar === url ? 'border-amber-400 bg-amber-500/10' : 'border-slate-800 bg-slate-900'} hover:border-amber-400 shrink-0 transition">
+            <img src="${url}" class="w-8 h-8 object-contain" />
+          </button>
+        `).join('');
+      }
+
+      window.equipStudioItem = function(url) {
+        window.currentAvatar = url;
+        document.getElementById('studio-stage-accessory').src = url;
+        renderStudioInventory();
+      };
+
+      window.saveStudioOutfit = function() {
+        localStorage.setItem('showdown_trainer_studio', JSON.stringify(window.trainerStudioState));
+        localStorage.setItem('showdown_avatar', window.currentAvatar);
+        localStorage.setItem('showdown_frame', window.currentFrame);
+        renderBattleStageTrainer();
+        alert('✅ Outfit updated and synced to Battle Stage!');
+      };
+
+      // 6. CS2 Roulette Wheel Engine
+      window.triggerCS2Unbox = function(type, cost) {
+        if (window.userCoins < cost) {
+          alert('Not enough coins!');
+          return;
+        }
+
+        window.userCoins -= cost;
+        localStorage.setItem('showdown_coins', window.userCoins);
+        document.getElementById('studio-coin-balance').textContent = window.userCoins;
+
+        const track = document.getElementById('cs2-reel-track');
+        const revealCard = document.getElementById('cs2-reveal-card');
+        const modal = document.getElementById('cs2-roulette-modal');
+
+        revealCard.classList.add('hidden');
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0px)';
+
+        const winningItem = ITEM_CATALOG[Math.floor(Math.random() * ITEM_CATALOG.length)];
+        let cardsHTML = '';
+
+        for (let i = 0; i < 45; i++) {
+          const randItem = (i === 36) ? winningItem : ITEM_CATALOG[Math.floor(Math.random() * ITEM_CATALOG.length)];
+          cardsHTML += `
+            <div class="cs2-item-card ${randItem.rarity}">
+              <img src="${randItem.url}" class="w-12 h-12 object-contain" />
+            </div>
+          `;
+        }
+
+        track.innerHTML = cardsHTML;
+        modal.classList.remove('hidden');
+
+        setTimeout(() => {
+          track.style.transition = 'transform 5s cubic-bezier(0.1, 1, 0.1, 1)';
+          const offset = -(36 * 122 - 240 + Math.floor(Math.random() * 30));
+          track.style.transform = `translateX(${offset}px)`;
+        }, 100);
+
+        setTimeout(() => {
+          if (!window.ownedAvatars.includes(winningItem.url)) {
+            window.ownedAvatars.push(winningItem.url);
+            localStorage.setItem('showdown_owned_avatars', JSON.stringify(window.ownedAvatars));
+          }
+          window.currentAvatar = winningItem.url;
+          localStorage.setItem('showdown_avatar', winningItem.url);
+
+          document.getElementById('cs2-win-name').textContent = `Unlocked: ${winningItem.name}!`;
+          revealCard.classList.remove('hidden');
+          renderStudioInventory();
+          renderBattleStageTrainer();
+        }, 5200);
+      };
+
+      window.closeCS2Modal = function() {
+        document.getElementById('cs2-roulette-modal').classList.add('hidden');
+      };
+
+      // 7. Render Battle Stage Side Trainer
+      function renderBattleStageTrainer() {
+        const battleTab = document.getElementById('battle-tab');
+        if (!battleTab) return;
+
+        let arenaStage = document.getElementById('arena-trainer-side-stage');
+        if (!arenaStage) {
+          arenaStage = document.createElement('div');
+          arenaStage.id = 'arena-trainer-side-stage';
+          arenaStage.className = 'flex justify-between items-end p-2 bg-slate-900/60 rounded-xl border border-slate-800 my-2';
+          battleTab.prepend(arenaStage);
+        }
+
+        arenaStage.innerHTML = `
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-16 h-24 relative flex items-center justify-center bg-slate-950/80 rounded-xl border-2 ${window.currentFrame} p-1 shadow-lg">
+              <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/${window.trainerStudioState.baseSprite}.png" class="w-full h-full object-contain filter drop-shadow" />
+              <img src="${window.currentAvatar}" class="absolute -top-1.5 -right-1.5 w-6 h-6 object-contain bg-slate-950 border border-amber-400 rounded-full p-0.5" />
+            </div>
+            <span class="text-[9px] font-black uppercase text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded border border-indigo-500/30">
+              ${window.currentTitle}
+            </span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-16 h-24 relative flex items-center justify-center bg-slate-950/80 rounded-xl border-2 border-rose-500 p-1 shadow-lg">
+              <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/102.png" class="w-full h-full object-contain filter drop-shadow" />
+            </div>
+            <span class="text-[9px] font-black uppercase text-rose-400 bg-rose-500/20 px-2 py-0.5 rounded border border-rose-500/30">Rival</span>
+          </div>
+        `;
+      }
+
+      renderBattleStageTrainer();
+    });
+  })();
   
   </script>
 </body>
